@@ -9,8 +9,55 @@
       font-size: 14px;
     }
     .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 15px;
+    }
+    .header-title {
       font-weight: 600;
+    }
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #555;
+    }
+    .toggle {
+      position: relative;
+      width: 36px;
+      height: 20px;
+    }
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #ccc;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .slider {
+      background: #1a73e8;
+    }
+    .toggle input:checked + .slider::before {
+      transform: translateX(16px);
     }
     textarea {
       width: 100%;
@@ -22,6 +69,7 @@
       font-family: monospace;
       font-size: 12px;
       resize: vertical;
+      box-sizing: border-box;
     }
     button {
       background: #1a73e8;
@@ -49,6 +97,10 @@
       background: #e8f5e8;
       color: #2e7d32;
     }
+    .info {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
     .error {
       background: #ffebee;
       color: #c62828;
@@ -56,9 +108,18 @@
   </style>
 </head>
 <body>
-  <div class="header">UnCopy - Clean URLs</div>
+  <div class="header">
+    <span class="header-title">UnCopy - Clean URLs</span>
+    <div class="toggle-wrapper">
+      <span>Auto</span>
+      <label class="toggle">
+        <input type="checkbox" id="toggleEnabled" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
 
-  <textarea id="urlInput" placeholder="Paste a URL here to remove tracking parameters..."></textarea>
+  <textarea id="urlInput" placeholder="Paste a URL to remove tracking parameters and unwrap redirect URLs..."></textarea>
 
   <div>
     <button id="cleanBtn">Clean URL</button>
@@ -67,6 +128,7 @@
 
   <div id="status"></div>
 
+  <script src="cleaner.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
