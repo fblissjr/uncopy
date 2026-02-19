@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0
+
+- Replace content scripts and clipboard polling with right-click context menus
+- Add "Clean this link" context menu item (right-click any link)
+- Add "Clean current page URL" context menu item (right-click page background)
+- Remove `clipboardRead` and broad `<all_urls>` host permissions to eliminate install-time warnings
+- Add `contextMenus` and `scripting` permissions
+- Convert `cleaner.js`, `background.js`, and `popup.js` to ES modules
+- Delete `content.js` (auto link cleaning and clipboard monitoring removed)
+- Repurpose popup toggle to enable/disable context menu items; relabel "Auto" to "Enable"
+
 ## 1.1.0
 
 - Add redirect URL unwrapping (Postmark, Facebook, Google, Microsoft SafeLinks, SendGrid)

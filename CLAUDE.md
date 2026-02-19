@@ -1,22 +1,25 @@
 # UnCopy Chrome Extension
 
-Chrome extension that tries to remove tracking parameters from URLs with multiple approaches.
+Chrome extension that removes tracking parameters from URLs via right-click context menus and a manual popup.
 
 ## Project Structure
 - `manifest.json` - Extension configuration (manifest v3) with popup action
-- `content.js` - Main script with link cleaning, mutation observer, and clipboard monitoring
-- `background.js` - Service worker for extension lifecycle
+- `cleaner.js` - ES module: URL cleaning logic (redirect unwrapping + param stripping), imported by background and popup
+- `background.js` - Service worker: context menu registration, click handling, storage sync
 - `popup.html` - Manual URL cleaning interface
 - `popup.js` - Popup functionality for manual cleaning
 
 ## Key Features
 - Removes 50+ tracking parameters (UTM, Facebook, LinkedIn, Amazon, etc.)
-- **Three approaches**:
-  1. Pre-cleans all links on web pages when loaded
-  2. Monitors clipboard for custom copy buttons (like LinkedIn's "Copy link")
-  3. Manual popup interface for paste-and-clean
-- Uses MutationObserver for dynamically added content
-- Clipboard monitoring only active when tab is visible (performance optimization)
+- **Two approaches**:
+  1. Right-click context menu: "Clean this link" (on links) and "Clean current page URL" (on page)
+  2. Manual popup interface for paste-and-clean
+- All JS files are ES modules (`import`/`export`); background service worker declared with `"type": "module"` in manifest
+- Clipboard writes from background use `chrome.scripting.executeScript` (not `navigator.clipboard` directly)
+- Popup toggle enables/disables context menu items via `chrome.storage.onChanged` → `chrome.contextMenus.update`
+
+## Permissions
+`clipboardWrite`, `activeTab`, `storage`, `contextMenus`, `scripting` — no host permissions, no content scripts.
 
 ## Limitations
-Cannot intercept all copy mechanisms due to browser security restrictions. Hence the multiple fallback approaches and manual option.
+Cannot intercept all copy mechanisms due to browser security restrictions. Right-click and manual popup are the two supported paths.

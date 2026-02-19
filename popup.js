@@ -1,5 +1,6 @@
 // UnCopy popup script
-// Uses window.UnCopy.cleanUrl() from cleaner.js (loaded first via popup.html)
+
+import { cleanUrl } from './cleaner.js';
 
 function showStatus(message, type) {
   const status = document.getElementById('status');
@@ -32,7 +33,7 @@ document.getElementById('cleanBtn').addEventListener('click', async () => {
     return;
   }
 
-  const cleanedUrl = window.UnCopy.cleanUrl(originalUrl, { aggressive: true });
+  const cleanedUrl = cleanUrl(originalUrl, { aggressive: true });
   urlInput.value = cleanedUrl;
 
   if (cleanedUrl === originalUrl) {

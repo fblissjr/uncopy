@@ -1,26 +1,21 @@
 {
   "manifest_version": 3,
   "name": "UnCopy - Link Tracker Remover",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Removes tracking parameters and unwraps redirect URLs",
   "permissions": [
     "clipboardWrite",
-    "clipboardRead",
     "activeTab",
-    "storage"
+    "storage",
+    "contextMenus",
+    "scripting"
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Clean URL from clipboard"
+    "default_title": "Clean URL"
   },
   "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["cleaner.js", "content.js"],
-      "run_at": "document_end"
-    }
-  ]
+    "service_worker": "background.js",
+    "type": "module"
+  }
 }
